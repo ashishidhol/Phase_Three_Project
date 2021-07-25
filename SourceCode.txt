@@ -1,0 +1,714 @@
+SportyShoesMainApplication--
+package com.ecommerce.webapp.sportyshoesapp;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+
+@SpringBootApplication
+@EntityScan(basePackages={"com.ecommerce.webapp.entity"})
+@ComponentScan (basePackages={"com.ecommerce.webapp.controller","com.ecommerce.webapp.exception"})
+@EnableJpaRepositories("com.ecommerce.webapp.repository")
+@EnableSwagger2
+public class SportyShoesAppApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(SportyShoesAppApplication.class, args);
+	}
+	@Bean
+	public Docket productApi() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("com.ecommerce.webapp"))
+				.build();
+	}
+
+}
+-----------------------------------------------------------------------------------------------
+
+->  Login Entity
+------------------------
+package com.ecommerce.webapp.entity;
+
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="login")
+public class Login {
+	
+	@Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String password;
+
+    
+public Login()
+ {
+		
+}
+
+public Login(Long id, String username, String password) {
+		
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+
+--------------------------------------------------------------------------------------------------------
+Shoes Entity
+-----------------------
+package com.ecommerce.webapp.entity;
+import java.math.BigDecimal;
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="tbl_laptops")
+public class Shoes {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private String name;
+	
+	private String brand;
+	
+	private String description;
+	
+	private BigDecimal price;
+	
+	@Column(name="created_at")
+	private Date createdAt;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Shoes other = (Shoes) obj;
+		if (brand == null) {
+			if (other.brand != null)
+				return false;
+		} else if (!brand.equals(other.brand))
+			return false;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Shoes [id=" + id + ", name=" + name + ", brand=" + brand + ", description=" + description + ", price="
+				+ price + ", createdAt=" + createdAt + "]";
+	}
+	
+}
+------------------------------------------------------------------------------------------------------------------
+Users Entity----
+package com.ecommerce.webapp.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+
+
+@Entity
+@Table(name = "user")
+public class Users {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "password")
+	private String password;
+	
+	@Column(name = "first_name", nullable = false, length = 20)
+    private String firstName;
+     
+    @Column(name = "last_name", nullable = false, length = 20)
+    private String lastName;
+    public Users() {}
+	public Users(Long id, String email, String password, String firstName, String lastName) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+}
+-----------------------------------------------------------------------------
+login controller-------
+package com.ecommerce.webapp.controller;
+
+import java.io.PrintWriter;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.authenticator.SavedRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ecommerce.webapp.entity.Login;
+import com.ecommerce.webapp.entity.Shoes;
+import com.ecommerce.webapp.exception.LoginIDNotFound;
+import com.ecommerce.webapp.exception.ProductNotFound;
+import com.ecommerce.webapp.repository.LoginRepository;
+
+
+
+
+
+@Controller
+public class LoginController {
+	
+	@Autowired
+    private LoginService userService;
+@Autowired LoginRepository loginrepo;
+                                   
+    @GetMapping("/login")
+           
+    public ModelAndView login() {
+    	ModelAndView mav = new ModelAndView("login");
+        mav.addObject("user", new Login());
+        return mav;
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute("user") Login user ) {
+    	
+    	Login authUser = userService.login(user.getUsername(), user.getPassword());
+    	
+
+    	System.out.print(authUser);
+    	if(Objects.nonNull(authUser)) 
+    	{	
+  
+    		return "redirect:/";
+    	
+    		
+    	} else {
+    		return "redirect:/login";
+    		
+    		
+    	
+    	}
+
+}
+    
+    @RequestMapping(value = {"/logout"}, method = RequestMethod.POST)
+    public String logoutDo(HttpServletRequest request,HttpServletResponse response)
+    {
+    	
+	  
+        return "redirect:/login";
+    }
+    @PutMapping("/changepassword/{id}")
+	public Login updatePassword(@RequestBody Login login, @PathVariable(value = "id") long loginId) {
+		
+		Login fetcheduser = this. loginrepo.findById(loginId)
+				.orElseThrow(() -> new LoginIDNotFound("Product Not found wit id " + loginId));
+		// set new values to change password
+		fetcheduser.setUsername(login.getUsername());
+		fetcheduser.setPassword(login.getPassword());
+		return this.loginrepo.save(fetcheduser);
+    }	
+}
+
+----------------------------------------------------------------------------------------------------------------
+Shoes Controller------------
+package com.ecommerce.webapp.controller;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ecommerce.webapp.entity.Shoes;
+import com.ecommerce.webapp.exception.ProductNotFound;
+import com.ecommerce.webapp.repository.ShoesRepository;
+
+@RestController
+public class ShoesController {
+	@Autowired
+	ShoesRepository shoesRepo;
+
+	// GET all product
+	@GetMapping("/products")
+	public List<Shoes> getAllProduct() {
+		return shoesRepo.findAll();
+	}
+
+	// GET product by id
+	@GetMapping("/products/{id}")
+	public Shoes getShoesById(@PathVariable(value = "id") long productId) {
+		return this.shoesRepo.findById(productId)
+				.orElseThrow(() -> new ProductNotFound("Product Not found with id " + productId));
+	}
+
+	// create a product
+	@PostMapping("/addproducts")
+	public Shoes addProduct(@RequestBody Shoes product) {
+		return this.shoesRepo.save(product);
+	}
+
+	// update a product
+	@PutMapping("/updateproducts/{id}")
+	public Shoes updateProduct(@RequestBody Shoes product, @PathVariable(value = "id") long productId) {
+		// 1. find a record / product
+		Shoes fetchedProduct = this.shoesRepo.findById(productId)
+				.orElseThrow(() -> new ProductNotFound("Product Not found wit id " + productId));
+		// 2 . set new values
+		fetchedProduct.setName(product.getName());
+		fetchedProduct.setBrand(product.getBrand());
+		fetchedProduct.setDescription(product.getDescription());
+		fetchedProduct.setPrice(product.getPrice());
+		fetchedProduct.setCreatedAt(product.getCreatedAt());
+		// 3.save a product
+
+		return this.shoesRepo.save(fetchedProduct);
+	}
+
+	// delete a product
+	@DeleteMapping("/deleteproducts/{id}")
+	public void deleteProduct(@PathVariable(value = "id") long productId) {
+		// 1. find a record / product
+		Shoes fetchedProduct = this.shoesRepo.findById(productId)
+				.orElseThrow(() -> new ProductNotFound("Product Not found wit id " + productId));
+		this.shoesRepo.delete(fetchedProduct);
+	}
+
+	// Filter product by Purchase Date
+	@GetMapping("/shoes/createdat")
+	public ResponseEntity<List<Shoes>> getShoesByCreatedDate(@RequestParam Date startDate, @RequestParam Date endDate) {
+		return new ResponseEntity<List<Shoes>>(shoesRepo.findByCreatedAtBetween(startDate, endDate), HttpStatus.OK);
+	}
+
+	// Filter product by Price
+	@GetMapping("/shoes/price")
+	public ResponseEntity<List<Shoes>> getShoesByPrice(@RequestParam BigDecimal startPrice,
+			@RequestParam BigDecimal endPrice) {
+		return new ResponseEntity<List<Shoes>>(shoesRepo.findByPriceBetween(startPrice, endPrice), HttpStatus.OK);
+	}
+
+	// Filter product by Brand
+	@GetMapping("/shoes/brand")
+	public ResponseEntity<List<Shoes>> getShoesByBrand(@RequestParam String brand) {
+		return new ResponseEntity<List<Shoes>>(shoesRepo.findByBrand(brand), HttpStatus.OK);
+	}
+
+	// filter product by Brand and Price
+	@GetMapping("/shoes/brandandprice")
+	public ResponseEntity<List<Shoes>> getShoesByBrandAndPrice(@RequestParam String brand,
+			@RequestParam BigDecimal price) {
+		return new ResponseEntity<List<Shoes>>(shoesRepo.findByBrandAndPrice(brand, price), HttpStatus.OK);
+	}
+
+	// filter product by Name or Brand or Price
+	@GetMapping("/shoes/nameorbrandorprice")
+	public ResponseEntity<List<Shoes>> getShoesByNameOrBrandOrPrice(@RequestParam String name,
+			@RequestParam String brand, @RequestParam BigDecimal price) {
+		return new ResponseEntity<List<Shoes>>(shoesRepo.findByNameOrBrandOrPrice(name, brand, price), HttpStatus.OK);
+	}
+
+}
+-----------------------------------------------------------------------------------------------
+user controller---------
+package com.ecommerce.webapp.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ecommerce.webapp.entity.Users;
+import com.ecommerce.webapp.exception.UserNotFound;
+import com.ecommerce.webapp.repository.UserRepository;
+
+@RestController
+
+@RequestMapping("/api/v1")
+public class UserController {
+	@Autowired
+	private UserRepository userRepository;
+	 
+	// GET all users
+	@GetMapping("/users")
+	public List<Users> getAllUsers() {
+		return this.userRepository.findAll();
+	}
+
+	// GET product by id
+	@GetMapping("/users/{id}")
+	public Users getUsersById(@PathVariable(value = "id") long userId) {
+		return this.userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFound("User Not found with id " + userId));
+	}
+
+	// create a user
+	@PostMapping("/users")
+	public Users addUser(@RequestBody Users user) {
+		return this.userRepository.save(user);
+	}
+
+	// update a user
+	@PutMapping("/users/{id}")
+	public Users updateUser(@RequestBody Users user, @PathVariable(value = "id") long userId) {
+		// 1. find a user
+		Users fetchedUser = this.userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFound("User Not found with id " + userId));
+		// 2 . set new values
+		fetchedUser.setEmail(user.getEmail());
+		fetchedUser.setPassword(user.getPassword());
+		fetchedUser.setFirstName(user.getFirstName());
+		fetchedUser.setLastName(user.getLastName());
+
+		// 3.save a user
+		return this.userRepository.save(fetchedUser);
+	}
+
+	// delete a user
+	@DeleteMapping("/users/{id}")
+	public void deleteUser(@PathVariable(value = "id") long userId) {
+		// 1. find a user
+		Users fetchedUser = this.userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFound("User Not found with id " + userId));
+		this.userRepository.delete(fetchedUser);
+	}
+
+}
+--------------------------------------------------------------------------------------------------------
+loginservice----------
+
+package com.ecommerce.webapp.controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.webapp.entity.Login;
+import com.ecommerce.webapp.repository.LoginRepository;
+
+@Service
+public class LoginService {
+	
+	@Autowired
+	private LoginRepository repo;
+  
+  public Login login(String username, String password) {
+	  Login user = repo.findByUsernameAndPassword(username, password);
+  	return user;
+  }
+	
+
+}
+----------------------------------------------------------------------------------------------------
+
+ProductNotFoundException--
+package com.ecommerce.webapp.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value=HttpStatus.NOT_FOUND)
+public class ProductNotFound extends RuntimeException{
+	
+	private static final long serialVersionUID = 1L;
+	
+	public ProductNotFound(String message) {
+		super(message);
+	}
+}
+------------------------------------------------------------------------------
+LoginIdNotFoundException-------
+package com.ecommerce.webapp.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value=HttpStatus.NOT_FOUND)
+public class ProductNotFound extends RuntimeException{
+	
+	private static final long serialVersionUID = 1L;
+	
+	public ProductNotFound(String message) {
+		super(message);
+	}
+}
+-------------------------------------------------------------------------------------
+UserNotFoundException
+package com.ecommerce.webapp.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class UserNotFound extends RuntimeException {
+	private static final long serialVersionUID = 1L;
+
+	public UserNotFound(String message) {
+		super(message);
+	}
+}
+==========================================
+ShoesRepository:
+package com.ecommerce.webapp.repository;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.sql.Date;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.ecommerce.webapp.entity.Shoes;
+
+@Repository
+public interface ShoesRepository extends JpaRepository<Shoes, Long> {
+
+	List<Shoes> findByCreatedAtBetween(Date startDate, Date endDate);
+
+	List<Shoes> findByPriceBetween(BigDecimal startPrice, BigDecimal endPrice);
+
+	List<Shoes> findByBrand(String name);
+
+	List<Shoes> findByPrice(BigDecimal price);
+
+	List<Shoes> findByBrandAndPrice(String brand, BigDecimal Price);
+
+	List<Shoes> findByNameOrBrandOrPrice(String name, String brand, BigDecimal price);
+
+}
+============================================================
+LoginRepository
+package com.ecommerce.webapp.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.ecommerce.webapp.entity.Login;
+
+@Repository
+public interface LoginRepository extends JpaRepository<Login, Long>{
+	Login findByUsernameAndPassword(String username, String password);
+
+}
+==========================================================
+UserRepository
+package com.ecommerce.webapp.repository;
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.ecommerce.webapp.entity.Users;
+@Repository
+public interface UserRepository extends JpaRepository<Users, Long> {
+	
+	 
+     
+}
+     
+
+
+
+
+
